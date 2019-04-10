@@ -17,6 +17,8 @@ New language features
   * `nextfloat(::BigFloat, n::Integer)` and `prevfloat(::BigFloat, n::Integer)` methods
     have been added ([#31310]).
 
+  * Support for Unicode 12.0.0 ([#31561]).
+
 Multi-threading changes
 -----------------------
 
@@ -34,6 +36,7 @@ is thrown, rather than a `ErrorException` ([#27900]).
 * Functions that invoke commands (e.g. `run(::Cmd)`) now throw a `ProcessFailedException`
 rather than an `ErrorException`, if those commands exit with non-zero exit code.
 ([#27900]).
+* Added `⋆` (`\star`) as unary operator ([#31604]).
 
 Command-line option changes
 ---------------------------
