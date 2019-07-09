@@ -112,8 +112,10 @@ function getindex(A::Bidiagonal{T}, i::Integer, j::Integer) where T
     end
     if i == j
         return A.dv[i]
-    elseif (istriu(A) && (i == j - 1)) || (istril(A) && (i == j + 1))
-        return A.ev[min(i,j)]
+    elseif A.uplo == 'U' && (i == j - 1)
+        return A.ev[i]
+    elseif A.uplo == 'L' && (i == j + 1)
+        return A.ev[j]
     else
         return zero(T)
     end
@@ -123,9 +125,9 @@ function setindex!(A::Bidiagonal, x, i::Integer, j::Integer)
     @boundscheck checkbounds(A, i, j)
     if i == j
         @inbounds A.dv[i] = x
-    elseif istriu(A) && (i == j - 1)
+    elseif A.uplo == 'U' && (i == j - 1)
         @inbounds A.ev[i] = x
-    elseif istril(A) && (i == j + 1)
+    elseif A.uplo == 'L' && (i == j + 1)
         @inbounds A.ev[j] = x
     elseif !iszero(x)
         throw(ArgumentError(string("cannot set entry ($i, $j) off the ",
