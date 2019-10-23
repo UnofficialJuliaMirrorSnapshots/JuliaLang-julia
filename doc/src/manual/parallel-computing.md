@@ -234,13 +234,24 @@ julia> Threads.nthreads()
 The number of threads Julia starts up with is controlled by an environment variable called `JULIA_NUM_THREADS`.
 Now, let's start up Julia with 4 threads:
 
+Bash on Linux/OSX:
+
 ```bash
 export JULIA_NUM_THREADS=4
 ```
 
-(The above command works on bourne shells on Linux and OSX. Note that if you're using a C shell
-on these platforms, you should use the keyword `set` instead of `export`. If you're on Windows,
-start up the command line in the location of `julia.exe` and use `set` instead of `export`.)
+C shell on Linux/OSX, CMD on Windows:
+
+```bash
+set JULIA_NUM_THREADS=4
+```
+
+Powershell on Windows:
+
+```powershell
+$env:JULIA_NUM_THREADS=4
+```
+
 
 Let's verify there are 4 threads at our disposal.
 
@@ -758,7 +769,8 @@ It is automatically made available on the worker processes.
 
 Note that workers do not run a `~/.julia/config/startup.jl` startup script, nor do they synchronize
 their global state (such as global variables, new method definitions, and loaded modules) with any
-of the other running processes.
+of the other running processes. You may use `addprocs(exeflags="--project")` to initialize a worker with
+a particular environment, and then `@everywhere using <modulename>` or `@everywhere include("file.jl")`.
 
 Other types of clusters can be supported by writing your own custom `ClusterManager`, as described
 below in the [ClusterManagers](@ref) section.
